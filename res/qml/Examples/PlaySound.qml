@@ -12,6 +12,7 @@ Item {
     anchors.fill: parent
     
     property var enable_buzzer_dc: false
+    property var buzzer_dc_threshold: 90
     property var buzzer_error_text: ""
     property var buzzer_volume: 50
     property var audio_notes: []
@@ -26,13 +27,18 @@ Item {
     }
     
     Component.onCompleted: {
+        // Add wave type options
+        dcWaveTypeModel.append({"text": "Sine Wave"})
+        dcWaveTypeModel.append({"text": "Saw Wave"})
 
+        // Get available notes and load the last selected note
         audio_notes = mBuzzer.GetNotesAvailable();
         for(var i in audio_notes){
             buzzerDcNoteModel.append({ "text": audio_notes[i] })
         }
         buzzerDcNoteCB.currentIndex = settingStorage.value("dc_note", 0)
 
+        // Scan audio devices and load the last used device
         mBuzzer.ScanForDevices()
         audio_devs = mBuzzer.GetDevicesNames()
         for(var i in audio_devs){
@@ -41,20 +47,27 @@ Item {
         audioDevicesDownBox.currentIndex = settingStorage.value("audio_device", 0)
         mBuzzer.SetDeviceByName(audio_devs[audioDevicesDownBox.currentIndex])
 
-        dcWaveTypeModel.append({"text": "Sine Wave"})
-        dcWaveTypeModel.append({"text": "Saw Wave"})
+        // Load the last used wave type
         dcWaveTypeCB.currentIndex = settingStorage.value("dc_wave_type", 0)
         if (dcWaveTypeCB.currentIndex == 0)
-            mBuzzer.SetDeviceByName("Sine")
+            mBuzzer.SetWaveType("Sine")
         else if (dcWaveTypeCB.currentIndex == 1)
-            mBuzzer.SetDeviceByName("Saw")
+            mBuzzer.SetWaveType("Saw")
 
+        // Load volume
         buzzerVolumeSlider.value = settingStorage.value("buzzer_volume", 50)
-        
-        buzzerEnabledForDC.checked = settingStorage.value("enable_buzzer_dc", false)
-        buzzerDcThreshold_TF.text =  settingStorage.value("enable_dc_threshold", "90")
-        buzzerDcOctave_TF.text = settingStorage.value("enable_dc_octave", 3)
         mBuzzer.SetVolume(buzzerVolumeSlider.value)
+        
+        // Load enable/disable buzzer
+        enable_buzzer_dc = settingStorage.value("enable_buzzer_dc", false)
+        buzzerEnabledForDC.checked = enable_buzzer_dc
+
+        // Load buzzer threshold
+        buzzer_dc_threshold = settingStorage.value("buzzer_dc_threshold", "90")
+        buzzerDcThreshold_TF.text = buzzer_dc_threshold
+
+        // Load octave
+        buzzerDcOctave_TF.text = settingStorage.value("buzzer_dc_octave", 3)
         mBuzzer.SetOctave(buzzerDcOctave_TF.text)
     }
     
@@ -151,7 +164,7 @@ Item {
                 text: "90"
                 validator: IntValidator{bottom: 0; top: 100;}
                 onTextChanged: {
-                    settingStorage.setValue("enable_dc_threshold", text)
+                    settingStorage.setValue("buzzer_dc_threshold", text)
                 }
             }
         }
@@ -168,7 +181,7 @@ Item {
                 text: "3"
                 validator: IntValidator{bottom: 0; top: 6;}
                 onTextChanged: {
-                    settingStorage.setValue("enable_dc_octave", buzzerDcOctave_TF.text)
+                    settingStorage.setValue("buzzer_dc_octave", buzzerDcOctave_TF.text)
                     mBuzzer.SetOctave(buzzerDcOctave_TF.text)
                 }
             }
