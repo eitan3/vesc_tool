@@ -18,6 +18,7 @@
         <file>res/qml/Examples/IoBoard.qml</file>
         <file>res/qml/Examples/ExperimentPlot.qml</file>
         <file>res/qml/Examples/LogTextToFile.qml</file>
+        <file>res/qml/Examples/PlaySound.qml</file>
         <file>res/qml/Examples/MMXGui.qml</file>
         <file>res/qml/Examples/BrakeBench.qml</file>
         <file>res/qml/Examples/PositionControl.qml</file>

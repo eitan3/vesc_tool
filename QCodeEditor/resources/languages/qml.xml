@@ -112,6 +112,7 @@
         <name>UdpServerSimple</name>
         <name>LogWriter</name>
         <name>LogReader</name>
+        <name>ToneSynthBuzzer</name>
         <name>ImageButton</name>
         <name>GroupBox</name>
         <name>Dialog</name>

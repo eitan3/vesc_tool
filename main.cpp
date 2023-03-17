@@ -24,6 +24,8 @@
 #include "mobile/vesc3ditem.h"
 #include "mobile/logwriter.h"
 #include "mobile/logreader.h"
+#include "mobile/tonesynth.h"
+#include "mobile/tonesynthbuzzer.h"
 #include "tcpserversimple.h"
 #include "pages/pagemotorcomparison.h"
 #include "codeloader.h"
@@ -205,6 +207,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Vesc3dItem>("Vedder.vesc.vesc3ditem", 1, 0, "Vesc3dItem");
     qmlRegisterType<LogWriter>("Vedder.vesc.logwriter", 1, 0, "LogWriter");
     qmlRegisterType<LogReader>("Vedder.vesc.logreader", 1, 0, "LogReader");
+    qmlRegisterType<ToneSynthBuzzer>("Vedder.vesc.tonesynthbuzzer", 1, 0, "ToneSynthBuzzer");
     qmlRegisterType<TcpHub>("Vedder.vesc.tcphub", 1, 0, "TcpHub");
     qmlRegisterType<CodeLoader>("Vedder.vesc.codeloader", 1, 0, "CodeLoader");
 

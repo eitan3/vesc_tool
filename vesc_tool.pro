@@ -105,6 +105,7 @@ QT       += quickcontrols2
 QT       += quickwidgets
 QT       += svg
 QT       += gui-private
+QT       += multimedia
 
 contains(DEFINES, HAS_SERIALPORT) {
     QT       += serialport
